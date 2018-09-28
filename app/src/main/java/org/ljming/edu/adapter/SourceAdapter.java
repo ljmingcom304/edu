@@ -47,7 +47,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.MainHolder
         holder.mTvItem.setText(file.getName());
         if (type == FileUtils.FILE_IMAGE) {
             holder.mIvIcon.setImageResource(R.drawable.icon_type_image);
-        } else if (type == FileUtils.FILE_PDF) {
+        } else if (type == FileUtils.FILE_WORD) {
             holder.mIvIcon.setImageResource(R.drawable.icon_type_pdf);
         } else {
             holder.mIvIcon.setImageResource(R.drawable.icon_type_file);

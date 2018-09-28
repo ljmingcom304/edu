@@ -6,4 +6,6 @@
     <dimen name="font_30">30px</dimen>
     <dimen name="font_48">48px</dimen>
     <dimen name="size_300">300px</dimen>
+    <dimen name="size_500">500px</dimen>
+    <dimen name="size_800">800px</dimen>
 </resources>

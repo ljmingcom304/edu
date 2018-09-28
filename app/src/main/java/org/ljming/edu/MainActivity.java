@@ -1,12 +1,15 @@
 package org.ljming.edu;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
 import org.ljming.edu.adapter.MainAdapter;
+import org.ljming.edu.dialog.MenuDialog;
 
 /**
  * Title: MainActivity
@@ -21,12 +24,22 @@ public class MainActivity extends BaseActivity {
 
     private Button mBtnClass;
     private RecyclerView mRvItem;
+    private Button mBtn01;  //word3
+    private Button mBtn02;  //word2
+    private Button mBtn03;  //word1
+    private Button mBtn04;  //图片
+    private Button mBtn05;  //返回
 
     @Override
     public void initView() {
         mBtnClass = (Button) findViewById(R.id.btn_class);
         mRvItem = (RecyclerView) findViewById(R.id.rv_item);
         mRvItem.setLayoutManager(new GridLayoutManager(this, 4));
+        mBtn01 = (Button) findViewById(R.id.btn_01);
+        mBtn02 = (Button) findViewById(R.id.btn_02);
+        mBtn03 = (Button) findViewById(R.id.btn_03);
+        mBtn04 = (Button) findViewById(R.id.btn_04);
+        mBtn05 = (Button) findViewById(R.id.btn_05);    //关闭对话框
     }
 
     @Override
@@ -36,11 +49,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void setListener() {
+        final MenuDialog menuDialog = new MenuDialog();
         mBtnClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SourceActivity.class);
-                startActivity(intent);
+                menuDialog.show(MainActivity.this);
             }
         });
     }
