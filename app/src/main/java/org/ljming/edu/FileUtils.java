@@ -5,7 +5,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Title: FileUtils
@@ -44,7 +43,7 @@ public class FileUtils {
     public static int getFileType(File file) {
         String name = file.getName().toLowerCase();
 
-        if (name.endsWith(".docx") || name.equals(".doc")) {
+        if (name.endsWith(".docx") || name.endsWith(".doc")) {
             return FILE_WORD;
         }
         String[] images = {".png", ".bmp", "jpg", ".gif", ".jpeg"};
@@ -59,9 +58,9 @@ public class FileUtils {
     /**
      * 获取图片文件
      */
-    public static List<String> getImageFile(File file) {
+    public static ArrayList<String> getImageFile(File file) {
         File[] files = file.listFiles();
-        List<String> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         for (int i = 0; files != null && i < files.length; i++) {
             File f = files[i];
             if (FileUtils.getFileType(f) == FileUtils.FILE_IMAGE) {
@@ -74,12 +73,12 @@ public class FileUtils {
     /**
      * 获取Word文件
      */
-    public static List<File> getWordFile(File file) {
+    public static ArrayList<File> getWordFile(File file) {
         File[] files = file.listFiles();
-        List<File> list = new ArrayList<>();
+        ArrayList<File> list = new ArrayList<>();
         for (int i = 0; files != null && i < files.length; i++) {
             File f = files[i];
-            if (FileUtils.getFileType(f) == FileUtils.FILE_IMAGE) {
+            if (FileUtils.getFileType(f) == FileUtils.FILE_WORD) {
                 list.add(f);
             }
         }

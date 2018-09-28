@@ -1,6 +1,5 @@
 package org.ljming.edu.dialog;
 
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -49,7 +48,7 @@ public class MenuDialog extends FragmentDialog {
         mAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MenuBean bean) {
-                mAdapter.setItem(getExpendBeans(bean.id, bean.isExpend));
+                mAdapter.setItem(getExpendBeans(bean, bean.id, bean.isExpend));
                 if (bean.level == 2 && bean.isExpend) {
                     mUnitFile = bean.file;
                 } else {
@@ -59,7 +58,7 @@ public class MenuDialog extends FragmentDialog {
         });
     }
 
-    @SuppressWarnings( "ResultOfMethodCallIgnored" )
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void initData() {
         mBeans = new ArrayList<>();
@@ -96,26 +95,7 @@ public class MenuDialog extends FragmentDialog {
         loadMenu(1);
         //加载单元目录下所有的试卷目录
         loadMenu(2);
-        mAdapter.setItem(getExpendBeans(ROOT_ID, true));
-    }
-
-    /**
-     * 获取需要展示的父级ID
-     */
-    private List<Integer> getShowParentMenuID(int parentId) {
-        ArrayList<Integer> list = new ArrayList<>();
-        if (parentId > ROOT_ID) {
-            return list;
-        }
-        for (int i = 0; i < mBeans.size(); i++) {
-            MenuBean menuBean = mBeans.get(i);
-            if (parentId == menuBean.id) {
-                list.add(menuBean.id);
-                list.addAll(getShowParentMenuID(menuBean.parentId));
-                break;
-            }
-        }
-        return list;
+        mAdapter.setItem(getExpendBeans(null, ROOT_ID, true));
     }
 
     /**
@@ -124,32 +104,16 @@ public class MenuDialog extends FragmentDialog {
      * @param parentId 要展开的菜单ID
      * @param isExpend 是否展开还是关闭
      */
-    private List<MenuBean> getExpendBeans(int parentId, boolean isExpend) {
-        //隐藏树结构的其他分支
-        List<Integer> showList = getShowParentMenuID(parentId);
-        for (int i = 0; i < mBeans.size(); i++) {
-            MenuBean menuBean = mBeans.get(i);
-            if (showList.contains(menuBean.id)) {
-                //在ID列表中既显示又扩展
-                menuBean.isShow = true;
-                menuBean.isExpend = true;
-            } else {
-                //父ID非根目录不显示不扩展
-                if (menuBean.parentId != ROOT_ID) {
-                    menuBean.isShow = false;
+    private List<MenuBean> getExpendBeans(MenuBean item, int parentId, boolean isExpend) {
+        //若为单元目录只展开当前单元不展开其他单元
+        if (item != null && item.level == 2) {
+            for (int i = 0; i < mBeans.size(); i++) {
+                MenuBean menuBean = mBeans.get(i);
+                if (item != menuBean && menuBean.level == 2) {
                     menuBean.isExpend = false;
-                } else {
-                    //父ID为根目录显示不扩展
-                    menuBean.isShow = true;
-                    if (parentId == menuBean.id && isExpend) {
-                        menuBean.isExpend = true;
-                    } else {
-                        menuBean.isExpend = false;
-                    }
                 }
             }
         }
-
 
         //获取父ID，展开所有父ID下所有的子菜单
         for (int i = 0; i < mBeans.size(); i++) {
