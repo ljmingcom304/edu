@@ -43,7 +43,7 @@ public class ImageActivity extends BaseActivity {
         mVpImage.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mTvCount.setText("第" + position + "页（共" + mImageAdapter.getCount() + "页）");
+                mTvCount.setText("第" + (position + 1) + "页（共" + mImageAdapter.getCount() + "页）");
             }
         });
     }

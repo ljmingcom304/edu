@@ -1,12 +1,12 @@
 package org.ljming.edu.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bm.library.PhotoView;
-import com.bumptech.glide.Glide;
 
 import org.ljming.edu.R;
 
@@ -37,7 +37,7 @@ public class ImageAdapter extends PagerAdapter {
         PhotoView pvImage= (PhotoView) view.findViewById(R.id.pv_image);
         pvImage.enable();           //开启缩放
         pvImage.setMaxScale(5.0f);  //缩放倍数
-        Glide.with(mContext).load(url).into(pvImage);
+        pvImage.setImageURI(Uri.parse(url));
         return view;
     }
 

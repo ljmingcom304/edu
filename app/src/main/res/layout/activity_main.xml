@@ -47,21 +47,25 @@
         <Button
             android:id="@+id/btn_02"
             style="@style/ButtonStyle"
+            android:layout_marginTop="1dp"
             android:text="F4" />
 
         <Button
             android:id="@+id/btn_03"
             style="@style/ButtonStyle"
+            android:layout_marginTop="1dp"
             android:text="F3" />
 
         <Button
             android:id="@+id/btn_04"
             style="@style/ButtonStyle"
+            android:layout_marginTop="1dp"
             android:text="F2" />
 
         <Button
             android:id="@+id/btn_05"
             style="@style/ButtonStyle"
+            android:layout_marginTop="1dp"
             android:text="F1" />
 
 

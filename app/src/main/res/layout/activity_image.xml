@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_black"
     android:orientation="vertical">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/size_20"/>
 
     <TextView
         android:id="@+id/tv_count"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/size_20"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_30" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

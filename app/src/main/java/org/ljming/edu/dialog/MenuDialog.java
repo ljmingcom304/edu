@@ -33,6 +33,7 @@ public class MenuDialog extends FragmentDialog {
     private RecyclerView mRvList;
     private MenuAdapter mAdapter;
     private List<MenuBean> mBeans;
+    private List<MenuBean> mCurBeans;
     private File mUnitFile;         //单元文件
 
     @Override
@@ -48,7 +49,8 @@ public class MenuDialog extends FragmentDialog {
         mAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(MenuBean bean) {
-                mAdapter.setItem(getExpendBeans(bean, bean.id, bean.isExpend));
+                mCurBeans = getExpendBeans(bean, bean.id, bean.isExpend);
+                mAdapter.setItem(mCurBeans);
                 if (bean.level == 2 && bean.isExpend) {
                     mUnitFile = bean.file;
                 } else {
@@ -61,41 +63,48 @@ public class MenuDialog extends FragmentDialog {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void initData() {
-        mBeans = new ArrayList<>();
-        //获取根目录下目录
-        Map<String, File> mFileMap = new HashMap<>();
-        File rootFile = FileUtils.getRootFile();
-        File[] rootFiles = rootFile.listFiles();
-        if (rootFiles != null) {
-            for (File file : rootFiles) {
-                if (file.isDirectory()) {
-                    mFileMap.put(file.getName(), file);
+        if (mBeans == null) {
+            mBeans = new ArrayList<>();
+            //获取根目录下目录
+            Map<String, File> mFileMap = new HashMap<>();
+            File rootFile = FileUtils.getRootFile();
+            File[] rootFiles = rootFile.listFiles();
+            if (rootFiles != null) {
+                for (File file : rootFiles) {
+                    if (file.isDirectory()) {
+                        mFileMap.put(file.getName(), file);
+                    }
                 }
             }
-        }
 
-        //遍历课程判断目录是否存在若不存在则创建目录
-        String[] sources = {"语文", "数学", "英语", "物理", "化学", "生物", "政治", "历史", "地理"};
-        for (int i = 0; i < sources.length; i++) {
-            String name = sources[i];
-            File file = null;
-            if (!mFileMap.containsKey(name)) {
-                file = new File(rootFile, name);
-                file.mkdir();
-            } else {
-                file = mFileMap.get(name);
+            //遍历课程判断目录是否存在若不存在则创建目录
+            String[] sources = {"语文", "数学", "英语", "物理", "化学", "生物", "政治", "历史", "地理"};
+            for (int i = 0; i < sources.length; i++) {
+                String name = sources[i];
+                File file = null;
+                if (!mFileMap.containsKey(name)) {
+                    file = new File(rootFile, name);
+                    file.mkdir();
+                } else {
+                    file = mFileMap.get(name);
+                }
+                MenuBean menuBean = new MenuBean(mBeans.size() + 1, ROOT_ID, file, 0, false);
+                mBeans.add(menuBean);
             }
-            MenuBean menuBean = new MenuBean(mBeans.size() + 1, ROOT_ID, file, 0, false);
-            mBeans.add(menuBean);
+
+            //加载课程目录下的年级目录
+            loadMenu(0);
+            //加载年级目录下的单元目录
+            loadMenu(1);
+            //加载单元目录下所有的试卷目录
+            loadMenu(2);
         }
 
-        //加载课程目录下的年级目录
-        loadMenu(0);
-        //加载年级目录下的单元目录
-        loadMenu(1);
-        //加载单元目录下所有的试卷目录
-        loadMenu(2);
-        mAdapter.setItem(getExpendBeans(null, ROOT_ID, true));
+        if (mCurBeans == null) {
+            mCurBeans = getExpendBeans(null, ROOT_ID, true);
+            mAdapter.setItem(mCurBeans);
+        }
+        mAdapter.setItem(mCurBeans);
     }
 
     /**
