@@ -24,11 +24,11 @@ public class MainActivity extends BaseActivity {
 
     private Button mBtnClass;
     private RecyclerView mRvItem;
-    private Button mBtn01;
-    private Button mBtn02;
-    private Button mBtn03;
-    private Button mBtn04;
-    private Button mBtn05;
+    private Button mBtn01;  //word3
+    private Button mBtn02;  //word2
+    private Button mBtn03;  //word1
+    private Button mBtn04;  //图片
+    private Button mBtn05;  //返回
 
     @Override
     public void initView() {
