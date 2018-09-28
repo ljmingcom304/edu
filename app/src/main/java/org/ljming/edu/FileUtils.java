@@ -4,6 +4,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Title: FileUtils
@@ -52,6 +54,36 @@ public class FileUtils {
             }
         }
         return FILE_TXT;
+    }
+
+    /**
+     * 获取图片文件
+     */
+    public static List<String> getImageFile(File file) {
+        File[] files = file.listFiles();
+        List<String> list = new ArrayList<>();
+        for (int i = 0; files != null && i < files.length; i++) {
+            File f = files[i];
+            if (FileUtils.getFileType(f) == FileUtils.FILE_IMAGE) {
+                list.add(f.getAbsolutePath());
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取Word文件
+     */
+    public static List<File> getWordFile(File file) {
+        File[] files = file.listFiles();
+        List<File> list = new ArrayList<>();
+        for (int i = 0; files != null && i < files.length; i++) {
+            File f = files[i];
+            if (FileUtils.getFileType(f) == FileUtils.FILE_IMAGE) {
+                list.add(f);
+            }
+        }
+        return list;
     }
 
 }

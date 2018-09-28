@@ -1,9 +1,15 @@
-package org.ljming.edu;
+package org.ljming.edu.dialog;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import org.ljming.edu.FileUtils;
+import org.ljming.edu.R;
 import org.ljming.edu.adapter.MenuAdapter;
 import org.ljming.edu.bean.MenuBean;
 
@@ -14,33 +20,48 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Title: SourceActivity
+ * Title:MenuDialog
  * <p>
- * Description:我的课程
+ * Description:菜单弹窗
  * </p>
- * Author: Jming.L
- * Date: 2018/9/24 21:41
- * Copyright: Jming.Liang All rights reserved.
+ * Author Jming.L
+ * Date 2018/9/28 18:41
  */
-public class SourceActivity extends BaseActivity {
+public class MenuDialog extends FragmentDialog {
+
 
     public static final int ROOT_ID = -1;//根ID
     private RecyclerView mRvList;
     private MenuAdapter mAdapter;
     private List<MenuBean> mBeans;
-    private SharedPreferences mShared;
+    private File mUnitFile;         //单元文件
 
     @Override
-    public void initView() {
-        mRvList = (RecyclerView) findViewById(R.id.rv_list);
-        mRvList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new MenuAdapter(this);
+    public void initView(View view) {
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        Resources resources = getResources();
+        this.setWidth(resources.getDimensionPixelOffset(R.dimen.size_800));
+        this.setHeight(resources.getDimensionPixelOffset(R.dimen.size_500));
+        mRvList = (RecyclerView) view.findViewById(R.id.rv_list);
+        mRvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new MenuAdapter(getActivity());
         mRvList.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(MenuBean bean) {
+                mAdapter.setItem(getExpendBeans(bean.id, bean.isExpend));
+                if (bean.level == 2 && bean.isExpend) {
+                    mUnitFile = bean.file;
+                } else {
+                    mUnitFile = null;
+                }
+            }
+        });
     }
 
     @SuppressWarnings( "ResultOfMethodCallIgnored" )
     @Override
-    public void initDate() {
+    public void initData() {
         mBeans = new ArrayList<>();
         //获取根目录下目录
         Map<String, File> mFileMap = new HashMap<>();
@@ -175,48 +196,15 @@ public class SourceActivity extends BaseActivity {
         mBeans.addAll(temp);
     }
 
-    @Override
-    public void setListener() {
-        mAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(MenuBean bean) {
-                mAdapter.setItem(getExpendBeans(bean.id, bean.isExpend));
-            }
-        });
-    }
-
     /**
-     * 获取图片文件
+     * 获取单元文件，单元File为NULL则不是单元目录，listFiles为空则该文件下没有其他文件
      */
-    public List<String> getImageFile(File file) {
-        File[] files = file.listFiles();
-        List<String> list = new ArrayList<>();
-        for (int i = 0; files != null && i < files.length; i++) {
-            File f = files[i];
-            if (FileUtils.getFileType(f) == FileUtils.FILE_IMAGE) {
-                list.add(f.getAbsolutePath());
-            }
-        }
-        return list;
-    }
-
-    /**
-     * 获取Word文件
-     */
-    public List<File> getWordFile(File file) {
-        File[] files = file.listFiles();
-        List<File> list = new ArrayList<>();
-        for (int i = 0; files != null && i < files.length; i++) {
-            File f = files[i];
-            if (FileUtils.getFileType(f) == FileUtils.FILE_IMAGE) {
-                list.add(f);
-            }
-        }
-        return list;
+    public File getUnitFile() {
+        return mUnitFile;
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.activity_source;
+    public int setLayout() {
+        return R.layout.dialog_menu;
     }
 }
