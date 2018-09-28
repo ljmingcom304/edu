@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        showReturn(false);
         mBtnClass = (Button) findViewById(R.id.btn_class);
         mRvItem = (RecyclerView) findViewById(R.id.rv_item);
         mRvItem.setLayoutManager(new GridLayoutManager(this, 4));
