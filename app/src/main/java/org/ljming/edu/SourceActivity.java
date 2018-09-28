@@ -1,5 +1,7 @@
 package org.ljming.edu;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -27,7 +29,7 @@ public class SourceActivity extends BaseActivity {
     private RecyclerView mRvList;
     private MenuAdapter mAdapter;
     private List<MenuBean> mBeans;
-    private SourceFragment mFragment;
+    private SharedPreferences mShared;
 
     @Override
     public void initView() {
@@ -35,10 +37,9 @@ public class SourceActivity extends BaseActivity {
         mRvList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new MenuAdapter(this);
         mRvList.setAdapter(mAdapter);
-        mFragment = (SourceFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressWarnings( "ResultOfMethodCallIgnored" )
     @Override
     public void initDate() {
         mBeans = new ArrayList<>();
@@ -79,19 +80,66 @@ public class SourceActivity extends BaseActivity {
     }
 
     /**
+     * 获取需要展示的父级ID
+     */
+    private List<Integer> getShowParentMenuID(int parentId) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (parentId > ROOT_ID) {
+            return list;
+        }
+        for (int i = 0; i < mBeans.size(); i++) {
+            MenuBean menuBean = mBeans.get(i);
+            if (parentId == menuBean.id) {
+                list.add(menuBean.id);
+                list.addAll(getShowParentMenuID(menuBean.parentId));
+                break;
+            }
+        }
+        return list;
+    }
+
+    /**
      * 获取展开后的JavaBean
      *
      * @param parentId 要展开的菜单ID
      * @param isExpend 是否展开还是关闭
-     * @return
      */
     private List<MenuBean> getExpendBeans(int parentId, boolean isExpend) {
+        //隐藏树结构的其他分支
+        List<Integer> showList = getShowParentMenuID(parentId);
+        for (int i = 0; i < mBeans.size(); i++) {
+            MenuBean menuBean = mBeans.get(i);
+            if (showList.contains(menuBean.id)) {
+                //在ID列表中既显示又扩展
+                menuBean.isShow = true;
+                menuBean.isExpend = true;
+            } else {
+                //父ID非根目录不显示不扩展
+                if (menuBean.parentId != ROOT_ID) {
+                    menuBean.isShow = false;
+                    menuBean.isExpend = false;
+                } else {
+                    //父ID为根目录显示不扩展
+                    menuBean.isShow = true;
+                    if (parentId == menuBean.id && isExpend) {
+                        menuBean.isExpend = true;
+                    } else {
+                        menuBean.isExpend = false;
+                    }
+                }
+            }
+        }
+
+
+        //获取父ID，展开所有父ID下所有的子菜单
         for (int i = 0; i < mBeans.size(); i++) {
             MenuBean menuBean = mBeans.get(i);
             if (menuBean.parentId == parentId) {
                 menuBean.isShow = isExpend;
             }
         }
+
+        //如果菜单是显示的则添加到集合中
         List<MenuBean> list = new ArrayList<>();
         for (int i = 0; i < mBeans.size(); i++) {
             MenuBean menuBean = mBeans.get(i);

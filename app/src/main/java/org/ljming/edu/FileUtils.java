@@ -17,7 +17,7 @@ import java.io.File;
 public class FileUtils {
 
     public static final int FILE_TXT = 0;
-    public static final int FILE_PDF = 1;
+    public static final int FILE_WORD = 1;
     public static final int FILE_IMAGE = 2;
 
     /**
@@ -42,8 +42,8 @@ public class FileUtils {
     public static int getFileType(File file) {
         String name = file.getName().toLowerCase();
 
-        if (name.endsWith(".pdf")) {
-            return FILE_PDF;
+        if (name.endsWith(".docx") || name.equals(".doc")) {
+            return FILE_WORD;
         }
         String[] images = {".png", ".bmp", "jpg", ".gif", ".jpeg"};
         for (String image : images) {
