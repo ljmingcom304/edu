@@ -112,13 +112,10 @@ public class MainActivity extends BaseActivity {
             List<File> wordFile = FileUtils.getWordFile(unitFile);
             if (wordFile.size() > position) {
                 File file = wordFile.get(position);
-                Intent intent = new Intent("android.intent.action.VIEW");
-                intent.addCategory("android.intent.category.DEFAULT");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                Uri uri = Uri.parse(file.getAbsolutePath());
-                //intent.setDataAndType(uri, "application/msword");
-                intent.setDataAndType(uri, "*/*");
-                startActivity(intent);
+                boolean result = WPSUtils.openFile(MainActivity.this, file.getAbsolutePath());
+                if (!result) {
+                    ToastUtils.show(MainActivity.this, "Word文件打开失败，请检查WPS是否正确安装");
+                }
             } else {
                 ToastUtils.show(MainActivity.this, "单元目录下未发现指定Word文件");
             }

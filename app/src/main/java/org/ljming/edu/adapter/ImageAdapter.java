@@ -1,15 +1,19 @@
 package org.ljming.edu.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bm.library.PhotoView;
 
 import org.ljming.edu.R;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -37,7 +41,9 @@ public class ImageAdapter extends PagerAdapter {
         PhotoView pvImage= (PhotoView) view.findViewById(R.id.pv_image);
         pvImage.enable();           //开启缩放
         pvImage.setMaxScale(5.0f);  //缩放倍数
-        pvImage.setImageURI(Uri.parse(url));
+        Bitmap bitmap = BitmapFactory.decodeFile(url);
+        pvImage.setImageBitmap(bitmap);
+        container.addView(view);
         return view;
     }
 
@@ -56,8 +62,4 @@ public class ImageAdapter extends PagerAdapter {
         return view == object;
     }
 
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
 }

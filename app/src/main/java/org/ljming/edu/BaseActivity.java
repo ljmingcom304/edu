@@ -28,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setListener();
     }
 
-    private void showReturn(boolean show) {
+    protected void showReturn(boolean show) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(show);

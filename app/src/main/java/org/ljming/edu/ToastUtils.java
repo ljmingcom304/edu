@@ -1,6 +1,8 @@
 package org.ljming.edu;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 /**
@@ -14,8 +16,8 @@ import android.widget.Toast;
  */
 public class ToastUtils {
 
-    public static void show(Context context,String text){
-        Toast.makeText(context,text,Toast.LENGTH_LONG).show();
+    public static void show(Context context, String text) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
 }
