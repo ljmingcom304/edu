@@ -49,8 +49,8 @@ public class WPSUtils {
     public class Reciver {
         public static final String ACTION_BACK = "com.kingsoft.writer.back.key.down";// 返回键广播
         public static final String ACTION_HOME = "com.kingsoft.writer.home.key.down";// Home键广播
-        public static final String ACTION_SAVE = "cn.wps.moffice.file.save";// 保存广播
-        public static final String ACTION_CLOSE = "cn.wps.moffice.file.close";// 关闭文件广播
+        public static final String ACTION_SAVE = "cn.wps.moffice.unitFile.save";// 保存广播
+        public static final String ACTION_CLOSE = "cn.wps.moffice.unitFile.close";// 关闭文件广播
     }
 
     public static boolean openFile(Context context, String path) {

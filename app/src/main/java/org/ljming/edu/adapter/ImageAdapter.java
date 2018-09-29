@@ -3,17 +3,14 @@ package org.ljming.edu.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bm.library.PhotoView;
 
 import org.ljming.edu.R;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -29,10 +26,15 @@ public class ImageAdapter extends PagerAdapter {
     private Context mContext;
     private List<String> mList;
 
-    public ImageAdapter(Context context, List<String> list) {
+    public ImageAdapter(Context context) {
         this.mContext = context;
-        this.mList = list;
     }
+
+    public void setItems(List<String> list){
+        this.mList = list;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {

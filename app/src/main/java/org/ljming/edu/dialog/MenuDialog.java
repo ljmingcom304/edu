@@ -7,9 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import org.ljming.edu.ACache;
 import org.ljming.edu.FileUtils;
 import org.ljming.edu.R;
 import org.ljming.edu.adapter.MenuAdapter;
+import org.ljming.edu.bean.ACacheBean;
 import org.ljming.edu.bean.MenuBean;
 
 import java.io.File;
@@ -35,6 +37,13 @@ public class MenuDialog extends FragmentDialog {
     private List<MenuBean> mBeans;
     private List<MenuBean> mCurBeans;
     private File mUnitFile;         //单元文件
+    private ACache aCache;
+    private ACacheBean cacheBean;
+    private OnClickListener listener;
+
+    public interface OnClickListener {
+        void onClick(File file);
+    }
 
     @Override
     public void initView(View view) {
@@ -50,9 +59,19 @@ public class MenuDialog extends FragmentDialog {
             @Override
             public void onItemClick(MenuBean bean) {
                 mCurBeans = getExpendBeans(bean, bean.id, bean.isExpend);
+
                 mAdapter.setItem(mCurBeans);
                 if (bean.level == 2 && bean.isExpend) {
                     mUnitFile = bean.file;
+                    //缓存
+                    cacheBean.unitFile = mUnitFile;
+                    cacheBean.curBeans = mCurBeans;
+                    cacheBean.allBeans = mBeans;
+                    aCache.put("BEAN", cacheBean);
+                    if (listener != null) {
+                        listener.onClick(mUnitFile);
+                    }
+                    dismissAllowingStateLoss();
                 } else {
                     mUnitFile = null;
                 }
@@ -60,9 +79,21 @@ public class MenuDialog extends FragmentDialog {
         });
     }
 
+    public void setOnClickListener(OnClickListener listener) {
+        this.listener = listener;
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void initData() {
+        aCache = ACache.build(getActivity());
+        cacheBean = aCache.getAsObject("BEAN", ACacheBean.class);
+        if (cacheBean == null) {
+            cacheBean = new ACacheBean();
+        } else {
+            mBeans = cacheBean.allBeans;
+            mCurBeans = cacheBean.curBeans;
+        }
         if (mBeans == null) {
             mBeans = new ArrayList<>();
             //获取根目录下目录

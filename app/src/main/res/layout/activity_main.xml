@@ -6,29 +6,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1000"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="@dimen/size_80"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btn_class"
-                android:layout_width="@dimen/size_300"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/size_30"
-                android:padding="@dimen/size_30"
-                android:text="我的课程"
-                android:textColor="@color/color_black"
-                android:textSize="@dimen/font_48" />
+                android:layout_marginStart="@dimen/size_30"
+                android:text="课程管理"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_30" />
+
+            <TextView
+                android:id="@+id/tv_path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_30"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_26"
+                android:ellipsize="end"
+                android:lines="1" />
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_item"
+        <FrameLayout
+            android:id="@+id/fr_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

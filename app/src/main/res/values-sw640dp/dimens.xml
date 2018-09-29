@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<dimen name="size_30">30px</dimen>
-	<dimen name="size_20">20px</dimen>
-	<dimen name="size_80">80px</dimen>
-	<dimen name="font_30">30px</dimen>
-	<dimen name="font_48">48px</dimen>
-	<dimen name="size_300">300px</dimen>
+	<dimen name="size_20">16.0000dp</dimen>
+	<dimen name="size_30">24.0000dp</dimen>
+	<dimen name="size_80">64.0000dp</dimen>
+	<dimen name="font_30">24.0000sp</dimen>
+	<dimen name="font_48">38.4000sp</dimen>
+	<dimen name="size_150">120.0000dp</dimen>
+	<dimen name="size_200">160.0000dp</dimen>
+	<dimen name="size_300">240.0000dp</dimen>
+	<dimen name="size_500">400.0000dp</dimen>
+	<dimen name="size_800">640.0000dp</dimen>
+	<dimen name="size_10">8.0000dp</dimen>
+	<dimen name="size_60">48.0000dp</dimen>
+	<dimen name="font_42">33.6000sp</dimen>
+	<dimen name="font_26">20.8000sp</dimen>
 </resources>

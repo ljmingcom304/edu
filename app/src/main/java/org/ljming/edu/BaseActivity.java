@@ -1,10 +1,11 @@
 package org.ljming.edu;
 
+
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
+import android.view.Window;
 
 /**
  * Title: BaseActivity
@@ -15,25 +16,17 @@ import android.view.MenuItem;
  * Date: 2018/9/24 21:42
  * Copyright: Jming.Liang All rights reserved.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(getLayout());
-        showReturn(true);
         initView();
         initDate();
         setListener();
-    }
-
-    protected void showReturn(boolean show) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(show);
-            actionBar.setDisplayHomeAsUpEnabled(show);
-        }
     }
 
     @Override

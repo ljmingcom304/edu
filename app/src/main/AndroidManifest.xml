@@ -28,7 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SourceActivity" />
-        <activity android:name=".ImageActivity" />
 
         <receiver android:name=".WPSReceiver">
             <intent-filter>
